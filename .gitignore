@@ -1,0 +1,24 @@
+# .NET
+**/bin/
+**/obj/
+*.user
+*.suo
+TestResults/
+coverage/
+
+# Angular / Node
+**/node_modules/
+**/dist/
+**/.angular/
+
+# Built Angular output (served by ASP.NET); keep folder placeholder
+backend/src/LabOpsDesk.Api/wwwroot/**
+!backend/src/LabOpsDesk.Api/wwwroot/.gitkeep
+
+# IDE / OS
+.idea/
+.vs/
+.DS_Store
+
+# Assessor-only (optional: uncomment if you do not want this in the candidate zip)
+# EVALUATOR-RUBRIC.md

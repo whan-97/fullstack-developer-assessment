@@ -1,0 +1,13 @@
+<div class="shell">
+  <header class="topbar">
+    <a routerLink="/" class="brand">{{ title }}</a>
+    <nav>
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</a>
+      <a routerLink="/assets" routerLinkActive="active">Assets</a>
+      <a routerLink="/parts" routerLinkActive="active">Parts</a>
+    </nav>
+  </header>
+  <main>
+    <router-outlet />
+  </main>
+</div>

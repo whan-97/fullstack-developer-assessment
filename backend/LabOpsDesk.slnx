@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/LabOpsDesk.Api/LabOpsDesk.Api.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/LabOpsDesk.Api.Tests/LabOpsDesk.Api.Tests.csproj" />
+  </Folder>
+</Solution>
