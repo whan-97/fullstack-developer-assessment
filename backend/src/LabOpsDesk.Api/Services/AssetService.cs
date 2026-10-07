@@ -53,11 +53,6 @@ public sealed class AssetService : IAssetService
             throw new ArgumentException("Location cannot be null or empty.", nameof(request.Location));
         }
 
-        if (string.IsNullOrWhiteSpace(request.Notes))
-        {
-            throw new ArgumentException("Notes cannot be null or empty.", nameof(request.Notes));
-        }
-
         var existing = await _store.GetByTagAsync(request.AssetTag.Trim(), cancellationToken);
         if (existing is not null)
         {
@@ -72,7 +67,7 @@ public sealed class AssetService : IAssetService
             Platform = request.Platform.Trim(),
             Location = request.Location.Trim(),
             Status = AssetStatus.Available,
-            Notes = request.Notes.Trim()
+            Notes = request.Notes?.Trim() ?? string.Empty
         };
 
         await _store.SaveAsync(asset, cancellationToken);
@@ -102,11 +97,6 @@ public sealed class AssetService : IAssetService
             throw new ArgumentException("Location cannot be null or empty.", nameof(request.Location));
         }
 
-        if (string.IsNullOrWhiteSpace(request.Notes))
-        {
-            throw new ArgumentException("Notes cannot be null or empty.", nameof(request.Notes));
-        }
-
         if (getAsset.Status != request.Status)
         {
             getAsset.TransitionTo(request.Status);
@@ -115,7 +105,7 @@ public sealed class AssetService : IAssetService
         getAsset.Name = request.Name.Trim();
         getAsset.Platform = request.Platform.Trim();
         getAsset.Location = request.Location.Trim();
-        getAsset.Notes = request.Notes.Trim();
+        getAsset.Notes = request.Notes?.Trim() ?? string.Empty;
 
         await _store.SaveAsync(getAsset, cancellationToken);
         return AssetMapper.ToResponse(getAsset);
