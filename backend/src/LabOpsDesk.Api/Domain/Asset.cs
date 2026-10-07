@@ -12,23 +12,58 @@ public sealed class Asset
     public DateTimeOffset? CheckedOutAt { get; set; }
     public string? Notes { get; set; }
 
-    public void TransitionTo(AssetStatus next)
+    public void TransitionTo(AssetStatus updatedStatus)
     {
-        throw new NotImplementedException();
+        if (!CanTransitionTo(updatedStatus))
+            throw new InvalidAssetTransitionException(Status, updatedStatus);
+
+        Status = updatedStatus;
     }
 
-    public bool CanTransitionTo(AssetStatus next)
+    public bool CanTransitionTo(AssetStatus updatedStatus)
     {
-        throw new NotImplementedException();
+        if (Status == updatedStatus)
+            return false;
+
+        switch (Status)
+        {
+            case AssetStatus.Available:
+                return updatedStatus == AssetStatus.InUse ||
+                       updatedStatus == AssetStatus.Maintenance ||
+                       updatedStatus == AssetStatus.Retired;
+
+            case AssetStatus.InUse:
+                return updatedStatus == AssetStatus.Available ||
+                       updatedStatus == AssetStatus.Maintenance;
+
+            case AssetStatus.Maintenance:
+                return updatedStatus == AssetStatus.Available ||
+                       updatedStatus == AssetStatus.Retired;
+
+            case AssetStatus.Retired:
+                return false;
+
+            default:
+                return false;
+        }
     }
 
-    public void CheckOut(string assignee, DateTimeOffset at)
+    public void CheckOut(string assignee, DateTimeOffset currentTime)
     {
-        throw new NotImplementedException();
+        if (string.IsNullOrWhiteSpace(assignee))
+            throw new ArgumentException("Assignee cannot be empty.", nameof(assignee));
+
+        TransitionTo(AssetStatus.InUse);
+
+        CheckedOutTo = assignee;
+        CheckedOutAt = currentTime;
     }
 
     public void CheckIn()
     {
-        throw new NotImplementedException();
+        TransitionTo(AssetStatus.Available);
+
+        CheckedOutTo = null;
+        CheckedOutAt = null;
     }
 }

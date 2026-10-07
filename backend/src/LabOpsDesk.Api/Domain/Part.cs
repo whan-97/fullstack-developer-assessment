@@ -13,8 +13,11 @@ public sealed class Part
 
     public bool IsLowStock => QuantityOnHand <= ReorderThreshold;
 
-    public void AdjustQuantity(int delta)
+    public void AdjustQuantity(int quantity)
     {
-        throw new NotImplementedException();
+        if (QuantityOnHand + quantity < 0)
+            throw new InvalidOperationException($"Adjusting quantity by {quantity} would result in a stock deficit of ({QuantityOnHand + quantity}).");
+
+        QuantityOnHand += quantity;
     }
 }

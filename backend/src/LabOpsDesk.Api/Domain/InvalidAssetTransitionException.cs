@@ -5,10 +5,10 @@ public sealed class InvalidAssetTransitionException : Exception
     public AssetStatus From { get; }
     public AssetStatus To { get; }
 
-    public InvalidAssetTransitionException(AssetStatus from, AssetStatus to)
-        : base($"Cannot transition asset from '{from}' to '{to}'.")
+    public InvalidAssetTransitionException(AssetStatus assetFrom, AssetStatus assetTo)
+        : base($"Cannot transition asset from '{assetFrom}' to '{assetTo}'.")
     {
-        From = from;
-        To = to;
+        From = assetFrom;
+        To = assetTo;
     }
 }
